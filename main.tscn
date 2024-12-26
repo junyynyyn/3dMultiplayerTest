@@ -13,7 +13,7 @@ spawn_path = NodePath("../--- Level ---")
 
 [node name="--- Menu ---" type="Node" parent="."]
 
-[node name="UI" type="Control" parent="--- Menu ---"]
+[node name="StartMenu" type="Control" parent="--- Menu ---"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="--- Menu ---/UI"]
+[node name="Background" type="TextureRect" parent="--- Menu ---/StartMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MainMenuContainer" type="HBoxContainer" parent="--- Menu ---/UI"]
+[node name="MainMenuContainer" type="HBoxContainer" parent="--- Menu ---/StartMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -44,22 +44,29 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="HostButton" type="Button" parent="--- Menu ---/UI/MainMenuContainer"]
+[node name="HostButton" type="Button" parent="--- Menu ---/StartMenu/MainMenuContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Host"
 
-[node name="LineEdit" type="LineEdit" parent="--- Menu ---/UI/MainMenuContainer"]
+[node name="UsernameInput" type="LineEdit" parent="--- Menu ---/StartMenu/MainMenuContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+placeholder_text = "Enter Username:"
+
+[node name="IPInput" type="LineEdit" parent="--- Menu ---/StartMenu/MainMenuContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "127.0.0.1"
 placeholder_text = "Enter IP:"
 
-[node name="JoinButton" type="Button" parent="--- Menu ---/UI/MainMenuContainer"]
+[node name="JoinButton" type="Button" parent="--- Menu ---/StartMenu/MainMenuContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Join"
 
-[node name="MainMenuContainer2" type="HBoxContainer" parent="--- Menu ---/UI"]
+[node name="HostContainer" type="HBoxContainer" parent="--- Menu ---/StartMenu"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -74,12 +81,12 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="StartButton" type="Button" parent="--- Menu ---/UI/MainMenuContainer2"]
+[node name="StartButton" type="Button" parent="--- Menu ---/StartMenu/HostContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 text = "Start Game"
 
-[node name="Status" type="Label" parent="--- Menu ---/UI"]
+[node name="Status" type="Label" parent="--- Menu ---/StartMenu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -94,3 +101,7 @@ grow_horizontal = 2
 grow_vertical = 2
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="--- Menu ---/StartMenu/MainMenuContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="--- Menu ---/StartMenu/MainMenuContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="--- Menu ---/StartMenu/HostContainer/StartButton" to="." method="_on_start_button_pressed"]
