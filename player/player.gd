@@ -41,6 +41,9 @@ func _ready() -> void:
 	reload_timer.wait_time = reload_speed
 	
 func _process(delta: float) -> void:
+	if (Input.is_action_just_pressed("pause")):
+		get_tree().quit()
+	
 	if (fire_rate_timer.is_stopped() and reload_timer.is_stopped()):
 		if (Input.is_action_just_pressed("fire")):
 			fire()
