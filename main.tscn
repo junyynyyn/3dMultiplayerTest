@@ -1,3 +1,13 @@
 [gd_scene format=3 uid="uid://5r8bcw6kxnbw"]
 
 [node name="Main" type="Node"]
+
+[node name="--- Level ---" type="Node" parent="."]
+
+[node name="--- Menu ---" type="Node" parent="."]
+
+[node name="Control" type="Control" parent="--- Menu ---"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

@@ -12,6 +12,8 @@ material = SubResource("StandardMaterial3D_t7snf")
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.22201, 0)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_ypslt")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
@@ -23,3 +25,59 @@ mesh = SubResource("CapsuleMesh_w1re6")
 [node name="CameraHolder" type="Node3D" parent="."]
 
 [node name="PlayerCamera" type="Camera3D" parent="CameraHolder"]
+
+[node name="RayCast3D" type="RayCast3D" parent="CameraHolder/PlayerCamera"]
+target_position = Vector3(0, 0, -100)
+collision_mask = 3
+
+[node name="FireRateTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="UIFrame" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="AmmoUI" type="Label" parent="UI/UIFrame"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -97.0
+offset_right = -54.0
+offset_bottom = -47.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 36
+text = "10/10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HealthBarUI" type="ProgressBar" parent="UI/UIFrame"]
+modulate = Color(1, 0.0392157, 0, 1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 59.0
+offset_top = -107.0
+offset_right = 430.0
+offset_bottom = -62.0
+grow_vertical = 0
+max_value = 10.0
+value = 10.0
+show_percentage = false
+
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
