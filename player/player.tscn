@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://babcntwrrfljk"]
+[gd_scene load_steps=7 format=3 uid="uid://babcntwrrfljk"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ypslt"]
 [ext_resource type="PackedScene" uid="uid://b0uw8h27pxv3y" path="res://effects/HitEffect.tscn" id="2_qrj76"]
@@ -10,6 +10,11 @@ albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_w1re6"]
 material = SubResource("StandardMaterial3D_t7snf")
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ixlt5"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.22201, 0)
@@ -81,5 +86,8 @@ grow_vertical = 0
 max_value = 10.0
 value = 10.0
 show_percentage = false
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ixlt5")
 
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

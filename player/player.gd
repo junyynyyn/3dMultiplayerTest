@@ -1,6 +1,7 @@
 extends CharacterBody3D
 class_name Player
 
+# Player Stats
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
 @export var SENSITIVITY = 0.01
@@ -20,6 +21,7 @@ var ammo: int = max_ammo:
 		ammo = value
 		ammo_ui.text = str(ammo) + "/" + str(max_ammo)
 
+# Player Node references
 @export var hit_effect: PackedScene
 
 @onready var camera_holder: Node3D = $CameraHolder
@@ -32,7 +34,17 @@ var ammo: int = max_ammo:
 @onready var ammo_ui: Label = $UI/UIFrame/AmmoUI
 @onready var health_bar_ui: ProgressBar = $UI/UIFrame/HealthBarUI
 
+# Multiplayer variables
+var owner_id
+
+func _enter_tree() -> void:
+	owner_id = name.to_int()
+	set_multiplayer_authority(owner_id)
+
 func _ready() -> void:
+	if owner_id != multiplayer.get_unique_id():
+		camera_holder.queue_free()
+	
 	# Confine Mouse to the Window
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -41,6 +53,11 @@ func _ready() -> void:
 	reload_timer.wait_time = reload_speed
 	
 func _process(delta: float) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
+	if owner_id != multiplayer.get_unique_id():
+		return
+	
 	if (Input.is_action_just_pressed("pause")):
 		get_tree().quit()
 	
@@ -53,6 +70,9 @@ func _process(delta: float) -> void:
 				reload_timer.start()
 
 func _physics_process(delta: float) -> void:
+	if owner_id != multiplayer.get_unique_id():
+		return
+		
 	# Basic Movement Code
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -73,6 +93,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _unhandled_input(event: InputEvent) -> void:
+	if owner_id != multiplayer.get_unique_id():
+		return
 	if event is InputEventMouseMotion:
 		camera_holder.rotate_y(-event.relative.x * SENSITIVITY)
 		player_camera.rotate_x(-event.relative.y * SENSITIVITY)
