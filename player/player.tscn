@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://babcntwrrfljk"]
+[gd_scene load_steps=6 format=3 uid="uid://babcntwrrfljk"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_ypslt"]
+[ext_resource type="PackedScene" uid="uid://b0uw8h27pxv3y" path="res://effects/HitEffect.tscn" id="2_qrj76"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y72k2"]
 
@@ -15,6 +16,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.22201, 0)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_ypslt")
+hit_effect = ExtResource("2_qrj76")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_y72k2")

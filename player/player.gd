@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
@@ -19,6 +20,8 @@ var ammo: int = max_ammo:
 		ammo = value
 		ammo_ui.text = str(ammo) + "/" + str(max_ammo)
 
+@export var hit_effect: PackedScene
+
 @onready var camera_holder: Node3D = $CameraHolder
 @onready var player_camera: Camera3D = $CameraHolder/PlayerCamera
 @onready var ray_cast_3d: RayCast3D = $CameraHolder/PlayerCamera/RayCast3D
@@ -33,7 +36,7 @@ func _ready() -> void:
 	# Confine Mouse to the Window
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# Set 
+	# Set fire rate and reload speed timers up
 	fire_rate_timer.wait_time = 1 / fire_rate
 	reload_timer.wait_time = reload_speed
 	
@@ -73,7 +76,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		player_camera.rotation.x = clamp(player_camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func fire() -> void:
-	print(ray_cast_3d.get_collision_point())
+	if (ray_cast_3d.get_collider()):
+		var sparks = hit_effect.instantiate()
+		sparks.global_position = ray_cast_3d.get_collision_point()
+		get_tree().get_root().add_child(sparks)
 
 func _on_reload_timer_timeout() -> void:
 	ammo = max_ammo
