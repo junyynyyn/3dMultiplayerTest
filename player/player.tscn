@@ -15,6 +15,12 @@ material = SubResource("StandardMaterial3D_t7snf")
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:health")
+properties/2/spawn = true
+properties/2/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.22201, 0)
@@ -32,6 +38,7 @@ mesh = SubResource("CapsuleMesh_w1re6")
 [node name="CameraHolder" type="Node3D" parent="."]
 
 [node name="PlayerCamera" type="Camera3D" parent="CameraHolder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0535374)
 
 [node name="RayCast3D" type="RayCast3D" parent="CameraHolder/PlayerCamera"]
 target_position = Vector3(0, 0, -100)
@@ -86,6 +93,13 @@ grow_vertical = 0
 max_value = 10.0
 value = 10.0
 show_percentage = false
+
+[node name="CenterContainer" type="CenterContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ixlt5")

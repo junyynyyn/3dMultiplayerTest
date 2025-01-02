@@ -34,8 +34,5 @@ func add_player(id):
 	player_container.add_child(player_instance)
 
 func delete_player(id):
-	pass
-	#if not players_container.has_node(str(id)):
-		#return
-	#
-	#players_container.get_node(str(id)).queue_free()
+	if player_container.has_node(str(id)):
+		player_container.get_node(str(id)).queue_free()

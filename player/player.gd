@@ -7,7 +7,7 @@ class_name Player
 @export var SENSITIVITY = 0.01
 
 @export var max_health = 10
-var health: int = max_health:
+@export var health: int = max_health:
 	set(value):
 		health = value
 		health_bar_ui.value = value
@@ -31,6 +31,7 @@ var ammo: int = max_ammo:
 @onready var fire_rate_timer: Timer = $FireRateTimer
 @onready var reload_timer: Timer = $ReloadTimer
 
+@onready var ui: CanvasLayer = $UI
 @onready var ammo_ui: Label = $UI/UIFrame/AmmoUI
 @onready var health_bar_ui: ProgressBar = $UI/UIFrame/HealthBarUI
 
@@ -44,6 +45,7 @@ func _enter_tree() -> void:
 func _ready() -> void:
 	if owner_id != multiplayer.get_unique_id():
 		camera_holder.queue_free()
+		ui.hide()
 	
 	# Confine Mouse to the Window
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

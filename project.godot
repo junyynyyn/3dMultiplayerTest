@@ -65,5 +65,6 @@ pause={
 
 [layer_names]
 
+3d_render/layer_2="player"
 3d_physics/layer_1="default"
 3d_physics/layer_2="player"
