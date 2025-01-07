@@ -7,10 +7,7 @@ class_name Player
 @export var SENSITIVITY = 0.01
 
 @export var max_health = 10
-@export var health: int = max_health:
-	set(value):
-		health = value
-		health_bar_ui.value = value
+@export var health: int = max_health
 
 @export var damage = 2
 @export var fire_rate = 2.0
@@ -103,10 +100,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		player_camera.rotation.x = clamp(player_camera.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func fire() -> void:
-	if (ray_cast_3d.get_collider()):
+	var target = ray_cast_3d.get_collider()
+	if (target):
 		var sparks = hit_effect.instantiate()
 		sparks.global_position = ray_cast_3d.get_collision_point()
 		get_tree().get_root().add_child(sparks)
+		if (target is Player):
+			target.hit.rpc_id(target.get_multiplayer_authority(), damage)
 
 func _on_reload_timer_timeout() -> void:
 	ammo = max_ammo
+
+func update_hp():
+	health_bar_ui.value = health
+
+@rpc("any_peer")
+func hit(damage):
+	health -= damage
+	update_hp()
